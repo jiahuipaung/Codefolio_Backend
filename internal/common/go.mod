@@ -3,7 +3,6 @@ module common
 go 1.23.3
 
 replace github.com/jiahuipaung/Codefolio_Backend/common => ../common
-
 replace github.com/jiahuipaung/Codefolio_Backend/user => ../user
 
 require (
