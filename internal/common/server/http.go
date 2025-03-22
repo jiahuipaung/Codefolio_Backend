@@ -1,10 +1,9 @@
 package server
 
 import (
-	"common"
-	"common/client/user"
 	"github.com/gin-gonic/gin"
-	client "github.com/jiahuipaung/Codefolio_Backend/internal/common/client/user"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/common"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/common/client/user"
 	"github.com/jiahuipaung/Codefolio_Backend/internal/user/app"
 )
 
@@ -14,23 +13,24 @@ type HTTPServer struct {
 }
 
 func RunHttpServer(serverName string, wrapper func(router *gin.Engine)) {
-
+	// TODO: Implement server initialization
 }
 
 func PostAuthSignin(c *gin.Context) {
 	var (
-		req  client.EmailPasswordSignin
+		req  user.EmailPasswordSignin
 		err  error
 		resp user.Response
 	)
 	if err = c.ShouldBindJSON(&req); err != nil {
-
+		// TODO: Handle error
 	}
 }
 
 func PostAuthSignup(c *gin.Context) {
 	var (
-		req client.UserSignup
+		req user.UserSignup
 		err error
 	)
+	// TODO: Implement signup
 }
