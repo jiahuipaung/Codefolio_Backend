@@ -6,7 +6,7 @@ import (
 	"time"
 
 	jwt "github.com/golang-jwt/jwt/v5"
-	"github.com/jiahuipaung/Codefolio_Backend/user/domain"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/domain"
 )
 
 var (

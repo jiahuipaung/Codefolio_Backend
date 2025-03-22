@@ -1,10 +1,10 @@
 package ports
 
 import (
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/app"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jiahuipaung/Codefolio_Backend/user/app"
 )
 
 type Handler struct {

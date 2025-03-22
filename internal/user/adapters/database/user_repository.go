@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/jiahuipaung/Codefolio_Backend/user/domain"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/domain"
 )
 
 type UserRepository struct {

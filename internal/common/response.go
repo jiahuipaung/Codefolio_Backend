@@ -3,8 +3,8 @@ package common
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/jiahuipaung/Codefolio_Backend/common/handler/errors"
-	"github.com/jiahuipaung/Codefolio_Backend/common/tracing"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/common/handler/errors"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/common/tracing"
 	"net/http"
 )
 

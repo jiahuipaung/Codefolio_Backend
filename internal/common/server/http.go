@@ -4,8 +4,8 @@ import (
 	"common"
 	"common/client/user"
 	"github.com/gin-gonic/gin"
-	client "github.com/jiahuipaung/Codefolio_Backend/common/client/user"
-	"github.com/jiahuipaung/Codefolio_Backend/user/app"
+	client "github.com/jiahuipaung/Codefolio_Backend/internal/common/client/user"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/app"
 )
 
 type HTTPServer struct {

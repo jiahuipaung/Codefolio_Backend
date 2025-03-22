@@ -4,12 +4,12 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jiahuipaung/Codefolio_Backend/common/config"
-	"github.com/jiahuipaung/Codefolio_Backend/user/adapters/database"
-	"github.com/jiahuipaung/Codefolio_Backend/user/adapters/memory"
-	"github.com/jiahuipaung/Codefolio_Backend/user/app"
-	"github.com/jiahuipaung/Codefolio_Backend/user/domain"
-	"github.com/jiahuipaung/Codefolio_Backend/user/ports"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/common/config"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/adapters/database"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/adapters/memory"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/app"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/domain"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/ports"
 )
 
 func main() {

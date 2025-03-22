@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/jiahuipaung/Codefolio_Backend/user/domain"
+	"github.com/jiahuipaung/Codefolio_Backend/internal/user/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
