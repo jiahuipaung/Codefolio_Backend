@@ -1,0 +1,17 @@
+user:
+  service-name: user
+  server-to-run: http
+  http-addr: 127.0.0.1:8282
+
+server:
+  port: 8080
+  jwt_secret: "your-secret-key-here"
+
+storage:
+  type: "memory"  # 可选值: "memory" 或 "database"
+  database:
+    host: "localhost"
+    port: 3306
+    user: "root"
+    password: ""
+    dbname: "codefolio"

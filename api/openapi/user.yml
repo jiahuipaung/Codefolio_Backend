@@ -1,0 +1,169 @@
+openapi: 3.0.3
+info:
+  title: user service
+  description: user service
+  version: 1.0.0
+servers:
+  - url: 'https://{hostname}/api'
+    description: 本地开发环境
+    variables:
+      hostname:
+        default: 127.0.0.1
+  - url: 'https://api.example.com'
+    description: 生产环境
+
+paths:
+  /auth/signup:
+    post:
+      description: "signup by email"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/RequestSignupCode'
+                - $ref: '#/components/schemas/VerifySignupCode'
+                - $ref: '#/components/schemas/UserSignup'
+
+      responses:
+        '200':
+          description: 验证码已发送/验证码验证成功/账号创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response'
+        default:
+          description: todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /auth/signin:
+    post:
+      description: "sign in by email and password"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/EmailPasswordSignin'
+      responses:
+        '200':
+          description: 登陆成功，返回JWT Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        default:
+          description: 登陆失败（邮箱/密码错误）
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+
+components:
+  schemas:
+    Email:
+      type: string
+      format: email
+      example: user@example.com
+    Username:
+      type: string
+      minLength: 3
+      example: "JohnDoe"
+      description: 用户名
+    Password:
+      type: string
+      format: password
+      example: "securepassword"
+      description: 用户密码，至少 8 位
+    VerificationCode:
+      type: string
+      minLength: 6
+      maxLength: 6
+      example: "123456"
+      description: 邮箱验证码
+
+    AuthResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "登录成功"
+        token:
+          type: string
+          description: JWT 令牌
+          example: "eyJhbGciOiJIUzI1NiIs..."
+
+    RequestSignupCode:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+
+    VerifySignupCode:
+      type: object
+      required:
+        - email
+        - code
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+        code:
+          $ref: '#/components/schemas/VerificationCode'
+
+    UserSignup:
+      type: object
+      required:
+        - email
+        - username
+        - password
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+        username:
+          $ref: '#/components/schemas/Username'
+        password:
+          $ref: '#/components/schemas/Password'
+
+    EmailPasswordSignin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+        password:
+          $ref: '#/components/schemas/Password'
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+
+    response:
+      type: object
+      properties:
+        errno:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+        trace_id:
+          type: string
+      required:
+        - errno
+        - message
+        - data
+        - trace_id
