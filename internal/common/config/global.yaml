@@ -8,7 +8,7 @@ server:
   jwt_secret: "your-secret-key-here"
 
 storage:
-  type: "memory"  # 可选值: "memory" 或 "database"
+  type: "database"  # 可选值: "memory" 或 "database"
   database:
     host: "localhost"
     port: 3306

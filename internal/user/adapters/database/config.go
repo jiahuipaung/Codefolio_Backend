@@ -3,10 +3,12 @@ package database
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/jiahuipaung/Codefolio_Backend/user/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type Config struct {
@@ -33,10 +35,41 @@ func (c *Config) DSN() string {
 }
 
 func NewDB(dsn string) (*gorm.DB, error) {
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		return nil, fmt.Errorf("failed to connect to database: %w", err)
+	var db *gorm.DB
+	var err error
+
+	// 配置 GORM
+	config := &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
 	}
+
+	// 重试连接数据库
+	maxRetries := 5
+	for i := 0; i < maxRetries; i++ {
+		db, err = gorm.Open(mysql.Open(dsn), config)
+		if err == nil {
+			break
+		}
+		fmt.Printf("Failed to connect to database (attempt %d/%d): %v\n", i+1, maxRetries, err)
+		if i < maxRetries-1 {
+			time.Sleep(time.Second * 5)
+		}
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to database after %d attempts: %w", maxRetries, err)
+	}
+
+	// 获取底层的 sql.DB
+	sqlDB, err := db.DB()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get sql.DB: %w", err)
+	}
+
+	// 设置连接池
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	// 自动迁移数据库表
 	if err := db.AutoMigrate(&domain.User{}); err != nil {

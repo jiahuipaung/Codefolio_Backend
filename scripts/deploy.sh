@@ -60,10 +60,37 @@ build_new_image() {
     docker-compose build --no-cache
 }
 
+# 等待 MySQL 就绪
+wait_for_mysql() {
+    print_info "Waiting for MySQL to be ready..."
+    local max_attempts=30
+    local attempt=1
+    local wait_time=2
+
+    while [ $attempt -le $max_attempts ]; do
+        if docker-compose exec -T mysql mysqladmin ping -h localhost -u root -pcodefolio123 --silent; then
+            print_info "MySQL is ready!"
+            return 0
+        fi
+        print_warn "Waiting for MySQL to be ready (attempt $attempt/$max_attempts)..."
+        sleep $wait_time
+        attempt=$((attempt + 1))
+    done
+
+    print_error "MySQL failed to become ready in time"
+    return 1
+}
+
 # 启动服务
 start_services() {
     print_info "Starting services..."
-    docker-compose up -d
+    docker-compose up -d mysql
+
+    # 等待 MySQL 就绪
+    wait_for_mysql
+
+    # 启动用户服务
+    docker-compose up -d user-service
 }
 
 # 检查服务状态

@@ -17,10 +17,11 @@ services:
       - APP_STORAGE_DATABASE_HOST=mysql
       - APP_STORAGE_DATABASE_PORT=3306
       - APP_STORAGE_DATABASE_USER=root
-      - APP_STORAGE_DATABASE_PASSWORD=your_password
+      - APP_STORAGE_DATABASE_PASSWORD=codefolio123
       - APP_STORAGE_DATABASE_DBNAME=codefolio
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -29,14 +30,22 @@ services:
     container_name: mysql
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=your_password
+      - MYSQL_ROOT_PASSWORD=codefolio123
       - MYSQL_DATABASE=codefolio
+      - MYSQL_USER=codefolio
+      - MYSQL_PASSWORD=codefolio123
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
       - "3306:3306"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 volumes:
   mysql-data:
