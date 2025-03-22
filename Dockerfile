@@ -21,7 +21,7 @@ RUN go mod download
 COPY . .
 
 # 构建应用
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/user-service ./internal/user/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app/user-service -mod=mod ./internal/user/main.go
 
 # 运行阶段
 FROM alpine:latest
