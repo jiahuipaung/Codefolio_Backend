@@ -4,6 +4,10 @@ FROM golang:1.23.3-alpine AS builder
 # 设置工作目录
 WORKDIR /app
 
+# 设置 Go 代理
+ENV GOPROXY=https://goproxy.cn,direct
+ENV GO111MODULE=on
+
 # 安装必要的构建工具
 RUN apk add --no-cache git
 
